@@ -1,0 +1,4 @@
+interface:
+  display_name: "论文逐图解读"
+  short_description: "逐 panel 读懂生物医学论文图"
+  default_prompt: "请逐 panel 解读我上传论文中的指定图：方法、读图方式、结果及其如何支撑论文结论。"
