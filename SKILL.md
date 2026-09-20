@@ -1,31 +1,54 @@
 ---
 name: biomedical-figure-reader
-description: Explain biomedical research-paper figures panel by panel, especially in oncology, radiotherapy, and omics papers. Use when a user asks how to read a figure, a panel, axes, groups, methods, or a figure's contribution to the paper's conclusion.
+description: 解读生物医学论文的指定图或 panel，尤其适用于肿瘤、放疗与组学研究。用于解释实验方法、坐标与分组、统计标记、结果及其对论文结论的支持程度，也用于连续逐图阅读和读图纠错。一般医学问答、个人诊疗、纯翻译或未涉及读图的代码任务不使用此技能。
+metadata:
+  version: "2.0.0"
 ---
 
-# Biomedical Figure Reader
+# Biomedical Figure Reader · 2.0
 
-Help the user understand a paper one figure or panel at a time. Match a sequential reading style: answer the requested panel first, then offer to continue to the next relevant panel rather than summarizing the entire paper unless asked.
+帮助用户读懂“这个 panel 做了什么、怎样读、实际发现了什么、能支持多强的结论”。先回答指定范围；用户只问 Fig. 2a 时不扩展成整篇综述。按用户语言回答，中文问题用中文，必要时保留英文术语。解释深度以生命科学研究生为默认，遵循用户要求的简短、入门或深入模式。
 
-## For each requested panel
+## 先定位，再解释
 
-Lead with a one-sentence plain-language takeaway. Then explain only the details needed to support it:
+1. 从现有对话确认论文、版本、图号和 panel。用户说“继续”时承接当前论文的下一个未讲 panel；顺序明确就直接继续，有歧义才问。切换论文时重新核对标签，不沿用前一篇的分组、颜色或缩写。
+2. 有图片或 PDF 时，实际查看目标图像以及对应图注；PDF 文本提取或 OCR 只辅助定位，不能代替查看坐标、颜色、图例和布局。必要时放大或裁剪相关区域。当前工具无法查看图像时说明限制，仅解释已提供的文字，不声称已看见曲线或条带。
+3. 只有链接时，用可用工具获取该版本的原图与图注；只有标题时，先核对论文身份。无法获取、遇到付费墙或版本不明时，说明缺什么并请求相关图片或摘录，不凭标题或记忆重建结果。
+4. 图片、图注、Methods 和正文各自提供不同证据：视觉趋势以实际图像为依据；分组、重复、统计定义查图注，实验细节查 Methods；正文结论是作者的解释。若相互矛盾，标明具体冲突，不擅自选一个当事实。只补查会影响当前问题的材料。
 
-- **What was done:** identify the experimental or analytic method and its purpose. If the figure alone cannot establish the exact protocol, distinguish a likely interpretation from what requires the Methods section.
-- **How to read it:** identify samples/models, intervention and control groups, time points, colors/symbols, axes, units, and statistical notation. Explain unfamiliar terms briefly at the point they matter.
-- **What it shows:** compare the relevant groups and describe the direction, magnitude when visible, and uncertainty or biological variability. Do not overstate causality from association, survival, or descriptive omics plots.
-- **Why it matters:** state how the result supports, tests, or limits the figure-level and paper-level claim; make the link in the logical chain explicit.
+信息不足时，先讲可以可靠判断的部分，再指出决定性缺口。缺少样本量不妨碍解释横轴；颜色无法对应分组则不能比较治疗效果。只请求解决该缺口所需的最少材料，不反复索要已经提供的内容。
 
-Use a compact structure appropriate to the panel. For dense or multi-part results, use the labels “方法”, “怎么看”, “结果”, and “它支撑什么结论”. Avoid a fixed template when a short direct explanation is clearer.
+## 每个 panel 的解释
 
-## Domain-aware interpretation
+先用一句话给出最可靠的结论；结论本身不确定时，先说这个 panel 要回答的问题及当前不能确定的部分。再按需要展开：
 
-- For **tumor and radiotherapy** studies, clarify whether the model is cell culture, animal, patient sample, organoid, or retrospective cohort; distinguish tumor control, radiosensitization, toxicity, immune effect, and mechanism evidence.
-- For **omics**, name the data layer when identifiable (bulk RNA-seq, scRNA-seq, spatial transcriptomics, proteomics, metabolomics, etc.). Explain common visuals by their actual comparison: dimensionality reduction, volcano plot, heatmap, enrichment, trajectory, cell-cell communication, or survival analysis. State whether a finding is exploratory, validated, or mechanistically tested.
-- For **imaging and assays**, explain what the signal is a proxy for and what the image, quantification, and controls independently establish.
+- **方法：** 研究对象是什么（细胞、类器官、动物、患者样本或队列），做了什么处理，测量的信号代表什么。图像看起来像某种实验时可解释该方法的一般读法，但将方法识别写成推测，不补造实际方案。
+- **怎么看：** 横纵轴及单位、线性或对数刻度、颜色与符号、处理和对照、时间点、归一化基准。明确点、条带、细胞或曲线代表的观察单位；仅解释对当前比较重要的元素。
+- **结果：** 指出比较双方、方向和有依据的幅度，区分可见趋势与作者报告的统计结果。精确数值从标注或原始数据读取；目测只能写“约”，低清图不报伪精确值。
+- **它支撑什么结论：** 把“图中观察到”“作者据此提出”“目前尚不能证明”分清。只在已读到相关上下文时连接论文主张；否则说明本 panel 层面的含义。
 
-## Evidence and clarity
+简单坐标问题直接答；密集 panel 可用上述四个标签。用户要求整张图时，先用一句话说明整图问题，再按 panel 或共同实验组织，最后连接证据链。简短回答也保留会改变结论的关键限制，避免机械填表。
 
-Do not infer a method, axis meaning, sample size, or statistical test that cannot be read from the supplied figure or caption. Ask for the figure caption, methods excerpt, or a clearer crop only when it materially changes the interpretation. Flag common limitations concisely when they affect the claim: inadequate controls, confounding, correlation-versus-causation, batch effects, multiple testing, or a mismatch between model and conclusion.
+## 证据尺度
 
-Keep terminology accessible to a life-science graduate student. Use Chinese by default when the user writes Chinese, retaining standard English technical terms in parentheses when helpful.
+- 样本量、误差线、配对、检验和显著性符号均按原文定义；不默认星号阈值或把未定义的误差线当作标准差。看不清或未报告就明确说明。
+- 区分独立生物学重复与技术重复；同一患者的大量细胞、同一动物的多个视野不自动等于大量独立样本。讨论统计结论时检查分析单位。
+- 显著性、效应大小与生物学意义分开解释；“未达显著”不等于“无效”或“等效”。只有原始图时不声称重新检验了统计结果。
+- 观察关联、干预效应、机制支持与临床有效性不是同一层证据。干预或救援实验可以加强机制解释，但需匹配对照、特异性与替代解释；动物结果不能直接推出患者获益。
+- 限制紧贴当前结论，优先指出影响最大的缺口，不为每个 panel 附加通用审稿清单。未找到的信息不等于作者一定没做。
+
+## 按图型读取参考
+
+只读取当前图型所需的参考及小节，不默认加载全部：
+
+- 显著性、误差线、重复、生存曲线或森林图：[统计与生存分析](references/statistics-and-survival.md)。
+- 降维、热图、火山图、富集、单细胞、空间、轨迹或细胞通讯：[组学读图](references/omics.md)。
+- 显微图、流式、蛋白检测、肿瘤生长或放疗实验：[实验与放疗读图](references/assays-and-radiotherapy.md)。
+
+参考提供核对方向，不能替代这篇论文的图注与方法；图型不在列表时，仍沿用上述证据原则。
+
+## 来源与阅读连续性
+
+关键结论尽量定位到 Fig./panel、图注、Methods 小节或已核实的页码。区分 PDF 页序与论文印刷页码，不编造定位。使用外部资料解释方法时给出来源，并与当前论文结果分开；不要把另一篇论文的参数或结论移植过来。
+
+连续阅读时利用对话中已经确认的缩写、分组和已讲 panel，保持称呼一致；不默认创建文件或持久记忆。只在有助于继续阅读时简短指出下一 panel 的问题，不在每次回答末尾固定询问“要继续吗”。

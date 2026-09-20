@@ -1,4 +1,4 @@
 interface:
   display_name: "论文逐图解读"
-  short_description: "逐 panel 读懂生物医学论文图"
-  default_prompt: "请逐 panel 解读我上传论文中的指定图：方法、读图方式、结果及其如何支撑论文结论。"
+  short_description: "逐图读懂肿瘤、放疗与组学论文，分清实验结果、统计含义和结论边界"
+  default_prompt: "请用 $biomedical-figure-reader 解读我提供论文中的指定图或 panel，说明方法、读图方式、结果及其能支持的结论，并标明关键不确定之处。"
