@@ -1,0 +1,4 @@
+interface:
+  display_name: "组会简短PPT.skill"
+  short_description: "按当次模板与文献制作适合硕士生在博士组会分享的简短中文PPT"
+  default_prompt: "使用 $short-group-meeting-ppt，根据我提供的PPT模板和文献制作6–7页简短组会汇报，加入逐页中文讲稿，并用一页汇报我提供的本周实际工作。"
